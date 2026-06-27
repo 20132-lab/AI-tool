@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My AI</title>
+<style>
+body{
+font-family:Arial;
+padding:20px;
+}
+#chat{
+height:400px;
+overflow:auto;
+}
+</style>
+</head>
+
+<body>
+
+<h1>My AI Tool</h1>
+
+<div id="chat"></div>
+
+<input id="msg">
+<button onclick="send()">Send</button>
+
+<script>
+async function send(){
+
+let input=document.getElementById("msg");
+
+let r=await fetch("/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+message:input.value
+})
+});
+
+let data=await r.json();
+
+document.getElementById("chat").innerHTML+=
+"<p>You: "+input.value+"</p>"+
+"<p>AI: "+data.reply+"</p>";
+
+input.value="";
+}
+</script>
+
+</body>
+</html>
